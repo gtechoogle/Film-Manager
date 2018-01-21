@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Test!</title>
+</head>
+
+<body>
+    <div>
+        <input type="text">
+        </br>
+        <button type="button" id="button">Open folder</button>
+    </div>
+    <div id='folder'>
+    </div>
+    <script type="text/javascript">
+        document.getElementById('button').onclick = function() {
+            const {
+                dialog
+            } = require('electron').remote
+            console.log(dialog)
+            dialog.showOpenDialog({
+                title: 'av',
+                defaultPath: 'Z:\\video\\video',
+                properties: ['openFile', 'openDirectory', 'multiSelections']
+            }, callab)
+
+            function callab(filename) {
+                var fs = require('fs');
+                fs.readdir(filename[0], function(err, files) {
+                    if (err) {
+                        throw err;
+                    }
+                    // files是一个数组  
+                    // 每个元素是此目录下的文件或文件夹的名称  
+                    console.log(files);
+                    var folder = document.getElementById('folder')
+                    files.forEach(element => {
+                        var div2 = document.createElement("label");
+                        div2.innerText = element;
+                        folder.appendChild(div2);
+                        var br = document.createElement("br");
+                        folder.appendChild(br)
+                    });
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>
